@@ -42,7 +42,21 @@ npm run smoke          # 端到端冒烟：真的用 MCP 客户端拉起服务�
 
 ### 部署到 Codex（已在本机配置好）
 
-`~/.codex/config.toml` 里追加下面这段即可（`FLOMO_AUTH_FILE` **只读引用**已有的凭据文件，
+用脚本写入 / 撤销，无需手动编辑配置：
+
+```powershell
+npm run mcp:deploy                    # 写入或更新条目（幂等）
+npm run mcp:undeploy -- --dry-run     # 先预览要移除什么
+npm run mcp:undeploy                  # 撤销部署（改动前自动备份）
+npm run mcp:backups                   # 列出备份
+npm run mcp:deploy -- --restore latest   # 用最近备份整文件恢复（会连带撤销其它配置改动）
+```
+
+其他选项：`--server <名称>`（默认 `flomo`）、`--config <路径>`（默认 `$CODEX_CONFIG` 或 `~/.codex/config.toml`）、
+`--auth-file <路径>`（默认同级 `flomo-cli/.flomo/auth.json`）。撤销只针对目标 server 的两个 section，
+不会动 `[windows]` 或其它 `[mcp_servers.*]`；往返部署经验证是逐字无损的。
+
+脚本写入的片段如下（`FLOMO_AUTH_FILE` **只读引用**已有的凭据文件，
 因此不用把 token 抄进配置文件，CLI 重新登录后 MCP 会自动用上新凭据）：
 
 ```toml
@@ -55,14 +69,12 @@ startup_timeout_sec = 60
 FLOMO_AUTH_FILE = 'C:\Users\TrimedHunter\Desktop\Codex\flomo-cli\.flomo\auth.json'
 ```
 
-配置在启动时读取，因此**重启 Codex 后** `flomo_*` 工具才会出现在工具列表里。
+配置在启动时读取，因此**重启 Codex 后**改动才会生效（撤销同理）。
 校验部署是否真的可用（会从 `config.toml` 读出真实取值、按原样拉起服务器并读取笔记库）：
 
 ```powershell
 npm run verify:deployed
 ```
-
-想撤销部署：删掉 `config.toml` 里上面两段，或把备份的 `config.toml.bak-*` 还原。
 
 凭据解析顺序：`FLOMO_AUTH_JSON` → `FLOMO_AUTH_FILE`（指向 JSON 文件）→ `FLOMO_TOKEN`（裸 token）→ `<本包目录>/.flomo/auth.json`。
 环境变量优先于文件，且一律只读（不写磁盘）。**缺凭据不会阻止服务器启动**，由 `flomo_health` 报告问题。

@@ -23,6 +23,9 @@
     "test": "vitest run",
     "smoke": "npm run build && tsx scripts/smoke.ts",
     "verify:deployed": "tsx scripts/verify-deployed.ts",
+    "mcp:deploy": "tsx scripts/mcp-config.ts add",
+    "mcp:undeploy": "tsx scripts/mcp-config.ts remove",
+    "mcp:backups": "tsx scripts/mcp-config.ts remove --list-backups",
     "self-test": "tsx src/index.ts --self-test",
     "list-tools": "tsx src/index.ts --list-tools"
   },
