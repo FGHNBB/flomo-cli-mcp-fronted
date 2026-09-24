@@ -1,0 +1,43 @@
+{
+  "sourceRepo": "../flomo-cli",
+  "sourceCommit": "9b2f115991de46a6de29b3c54ecde3ad1ae58eab",
+  "syncedAt": "2026-09-24T08:45:26.250Z",
+  "files": {
+    "core": [
+      "src/core/auth.ts",
+      "src/core/client.ts",
+      "src/core/contract.ts",
+      "src/core/errors.ts",
+      "src/core/http.ts",
+      "src/core/index.ts",
+      "src/core/memos.ts",
+      "src/core/onboarding.ts",
+      "src/core/paths.ts",
+      "src/core/platform.ts",
+      "src/core/sign.ts",
+      "src/core/tags.ts",
+      "src/core/tz.ts"
+    ],
+    "tests": [
+      "tests/auth.test.ts",
+      "tests/client.test.ts",
+      "tests/contract.test.ts",
+      "tests/http.test.ts",
+      "tests/memos.test.ts",
+      "tests/onboarding.test.ts",
+      "tests/platform.test.ts",
+      "tests/sign.test.ts",
+      "tests/tags.test.ts",
+      "tests/tz.test.ts"
+    ],
+    "skippedTests": [
+      "envelope.test.ts",
+      "memo-args.test.ts"
+    ]
+  },
+  "totals": {
+    "core": 13,
+    "coreLines": 1841,
+    "tests": 10
+  }
+}

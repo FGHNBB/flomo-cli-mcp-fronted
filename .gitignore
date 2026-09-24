@@ -1,0 +1,8 @@
+node_modules/
+dist/
+
+# 本包自己的凭据目录（MCP 场景应改用环境变量注入）
+.flomo/
+
+*.log
+coverage/
