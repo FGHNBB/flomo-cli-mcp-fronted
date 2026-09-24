@@ -40,6 +40,30 @@ npm run smoke          # 端到端冒烟：真的用 MCP 客户端拉起服务�
 }
 ```
 
+### 部署到 Codex（已在本机配置好）
+
+`~/.codex/config.toml` 里追加下面这段即可（`FLOMO_AUTH_FILE` **只读引用**已有的凭据文件，
+因此不用把 token 抄进配置文件，CLI 重新登录后 MCP 会自动用上新凭据）：
+
+```toml
+[mcp_servers.flomo]
+args = ['C:\Users\TrimedHunter\Desktop\Codex\flomo-cli-mcp-fronted\dist\index.js']
+command = 'C:\Program Files\nodejs\node.exe'
+startup_timeout_sec = 60
+
+[mcp_servers.flomo.env]
+FLOMO_AUTH_FILE = 'C:\Users\TrimedHunter\Desktop\Codex\flomo-cli\.flomo\auth.json'
+```
+
+配置在启动时读取，因此**重启 Codex 后** `flomo_*` 工具才会出现在工具列表里。
+校验部署是否真的可用（会从 `config.toml` 读出真实取值、按原样拉起服务器并读取笔记库）：
+
+```powershell
+npm run verify:deployed
+```
+
+想撤销部署：删掉 `config.toml` 里上面两段，或把备份的 `config.toml.bak-*` 还原。
+
 凭据解析顺序：`FLOMO_AUTH_JSON` → `FLOMO_AUTH_FILE`（指向 JSON 文件）→ `FLOMO_TOKEN`（裸 token）→ `<本包目录>/.flomo/auth.json`。
 环境变量优先于文件，且一律只读（不写磁盘）。**缺凭据不会阻止服务器启动**，由 `flomo_health` 报告问题。
 

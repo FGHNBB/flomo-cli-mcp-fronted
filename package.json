@@ -22,6 +22,7 @@
     "check:core": "tsx scripts/sync-core.ts --check",
     "test": "vitest run",
     "smoke": "npm run build && tsx scripts/smoke.ts",
+    "verify:deployed": "tsx scripts/verify-deployed.ts",
     "self-test": "tsx src/index.ts --self-test",
     "list-tools": "tsx src/index.ts --list-tools"
   },
